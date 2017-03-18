@@ -1,7 +1,7 @@
 # predicting-genres
 EECS 486 project to predict song genres based on their lyrics.
 
-The lyrics in consideration are country, rock, rap, blues, jazz, and pop.
+The genres in consideration are country, rock, rap, blues, jazz, and pop.
 
 All of our data is from the Million Song Dataset. https://labrosa.ee.columbia.edu/millionsong/. We are using the lyrical data provided by musiXmatch and genre annotations provided by tagtraum.
 
