@@ -10,4 +10,4 @@ def svm(vector_rep, label):
             L2Quad = SVC(kernel='poly', C=C_Quad[i], coef0=R_Quad[ij], degree=2, class_weight='balanced')
             L2Quad.fit(vector_rep, label)
             model.append(L2Quad)
-    return model # Have to deciide regularization and the cofficeint in quad function 
+    return model # Have to decide regularization and the cofficeint in quad function 
