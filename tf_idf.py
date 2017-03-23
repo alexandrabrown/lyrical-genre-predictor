@@ -1,7 +1,7 @@
 import sys
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-def main():
+def tf_idf_vectorize():
     corpus = [
     'This is the first document.',
     'This is the second second document.',
@@ -12,9 +12,4 @@ def main():
     vectorizer = TfidfVectorizer(min_df=1)
     vectorizer.fit_transform(corpus)
 
-    print vectorizer.fit_transform(corpus).toarray()
-
-
-
-if __name__ == "__main__":
-    sys.exit(int(main() or 0))
+    return vectorizer.fit_transform(corpus).toarray()
