@@ -11,4 +11,5 @@ def vectorization(train_ID, test_ID, vect_opts):
 
 
     if vect_opts == "tf_idf":
-        return tf_idf.tf_idf_vectorize(train_lyrics, test_lyrics)
+		return tf_idf.tf_idf_vectorize(train_lyrics, test_lyrics, "dense")
+		

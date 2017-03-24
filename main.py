@@ -40,8 +40,7 @@ def train(classifier_opts, vect_opts):
     if classifier_opts == "naive_bayes":
         pass
     else:  # Vectorization
-
-        train_vecs, test_vec = vectorization.vectorize(train_ID, test_ID, vect_opts)
+        train_matrix, test_matrix = vectorization.vectorize(train_ID, test_ID, vect_opts)
         # classification method (cosine sim, machine learning, etc)
 
 
