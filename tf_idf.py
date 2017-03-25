@@ -36,10 +36,7 @@ def tf_idf_vectorize(train_lyrics, test_lyrics, option):
 #def main():
 #    print (tf_idf_vectorize([], []))
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     sys.exit(int(main() or 0))
-=======
-#if __name__ == "__main__":
-#    sys.exit(int(main() or 0))
->>>>>>> dev
+
+
