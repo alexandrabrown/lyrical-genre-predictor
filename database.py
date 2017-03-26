@@ -12,3 +12,7 @@ def get_track(track_id):
     for word, count in words:
         lyrics.extend([word for i in range(count)])
     return " ".join(lyrics)
+
+
+def get_track_list(track_ids):
+    return [get_track(id) for id in track_ids]
