@@ -1,11 +1,12 @@
 import sys
-import vectorization
+from vectorization import *
+from naive_bayes import *
 
 
 def main():
     
     """
-    Usage: python3 main.py <naive_bayes><svm> <tfidf>
+    Usage: python3 main.py <naive_bayes><svm> <tf_idf>
     TODO: allow lyrics to be read from an optional filename
     """
 
@@ -20,7 +21,7 @@ def classify_songs(classifier_opts, vect_opts):
     """
     Load the IDs
     """
-    categories = ["Rock", "Pop", "Country", "Blues", "Jazz", "Rap"]
+    categories = ["Pop", "Rock", "Country", "Blues", "Jazz", "Rap"]
     
     train_truth = []
     test_truth = []
@@ -28,25 +29,31 @@ def classify_songs(classifier_opts, vect_opts):
     train_IDs = []
     test_IDs = []
 
+    # Go thru the track list and set aside tracks for training and testing 
     with open("msd_tagtraum_cd2c.cls") as f:
         i = 0
         for line in f:
-            track, category = line.split()
+            try:
+                track, category = line.strip().split(None, 1) # max split once
+            except:
+                print("Line error", line)
+                exit(1)
+
+            # Skip categories we are not considering
             if category not in categories:
                 continue
-            if i < 100:
+            if i < 1000:
                 train_truth.append(category)
-                train_ID.append(track)
-            elif i < 125:
+                train_IDs.append(track)
+            elif i < 1001:
                 test_truth.append(category)
-                test_ID.append(track)
+                test_IDs.append(track)
             else:
                 break
             i += 1
 
     # vectorize train and test
-    train_matrix, test_matrix = vectorization.vectorize(train_IDs, test_IDs,
-                                                        vect_opts)
+    train_matrix, test_matrix = vectorization(train_IDs, test_IDs, vect_opts)
     
     # classify based on classifier_opts
     if classifier_opts == "naive_bayes":
@@ -59,6 +66,11 @@ def classify_songs(classifier_opts, vect_opts):
     else:
         print("Unrecognized classification")
         sys.exit(1)
+
+    print("Training cateogories", train_truth)
+
+    print("Predicted", predicted_test_categories)
+    print("Actual", test_truth)
 
     return predicted_test_categories, test_truth
 
