@@ -34,6 +34,7 @@ def naive_bayes_classifier(train_matrix, test_matrix, train_categories):
     predicted = classifier.predict(test_matrix)
 
     print(predicted)
+    return predicted
 
 
 # if __name__ == '__main__':
