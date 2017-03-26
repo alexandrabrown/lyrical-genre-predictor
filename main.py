@@ -1,13 +1,15 @@
 import sys
 import vectorization
 
+
 def main():
     # Add option to take in
-    classifier_opts  = sys.argv[1]  
+    classifier_opts = sys.argv[1]
     vect_opts = sys.argv[2]
     train(classifier_opts, vect_opts)
     test()
-    
+
+
 def train(classifier_opts, vect_opts):
 
     """
@@ -37,7 +39,7 @@ def train(classifier_opts, vect_opts):
 
     # read training data
 
-    if classifier_opts == "naive_bayes":
+    if classifier_opts == naivebayes:
         pass
     else:  # Vectorization
         train_matrix, test_matrix = vectorization.vectorize(train_ID, test_ID, vect_opts)
@@ -48,5 +50,5 @@ def test():
     pass
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
