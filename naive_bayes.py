@@ -36,5 +36,5 @@ def naive_bayes_classifier(train_matrix, test_matrix, categories):
     print(predicted)
 
 
-if __name__ == '__main__':
-    sys.exit(int(main() or 0))
+# if __name__ == '__main__':
+#     sys.exit(int(main() or 0))
