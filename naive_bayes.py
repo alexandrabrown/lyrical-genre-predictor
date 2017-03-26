@@ -7,11 +7,11 @@ from tf_idf import tf_idf_vectorize
 import sys
 
 
-def naive_bayes_classifier(train_matrix, test_matrix, categories):
+def naive_bayes_classifier(train_matrix, test_matrix, train_categories):
     """
     Naive Bayes Classifier
     Input: two Matrices of vector representations of train/test lyrics,
-        and a list of strings of categories
+        and a list of strings of categories for training data
     Output: list of predicted categories for test_lyrics
     """
 
@@ -21,7 +21,7 @@ def naive_bayes_classifier(train_matrix, test_matrix, categories):
     # 'hello its me i was wondering if after all this time you like to be',
     # 'just take those old records off the shelf']
 
-    # categories = ['musical', 'musical', 'musical', 'rock', 'rock']
+    # train_categories = ['musical', 'musical', 'musical', 'rock', 'rock']
 
     # test_lyrics = ['hello shelf its me time', 'orphan dude bro']
 
@@ -30,7 +30,7 @@ def naive_bayes_classifier(train_matrix, test_matrix, categories):
     # print(train_matrix)
     # print(test_matrix)
 
-    classifier = MultinomialNB().fit(train_matrix, categories)
+    classifier = MultinomialNB().fit(train_matrix, train_categories)
     predicted = classifier.predict(test_matrix)
 
     print(predicted)
