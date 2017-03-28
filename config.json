@@ -1,0 +1,21 @@
+{
+    "META": {
+        "AUTHOR": "NORIYUKI KOJIMA",
+        "DATE": "2017-03-27",
+        "DESCR": "Config file for EECS486 FINAL PROJECT LYRICAL GENRE PREDICTOR"
+    },
+    "TRAIN": {
+
+        "NN": {
+            "CHECKPOINT": "NN/Model/cnn.ckpt",
+            "LEARNING_RATE": 0.0005,
+            "NB_STEPS": 100,
+            "BATCH_SIZE": 100,
+	    "DROPOUT_RATE": 0.5
+        }
+    },
+    "MODEL": {
+        "CLASS_DIM": 6,
+    }
+}
+
