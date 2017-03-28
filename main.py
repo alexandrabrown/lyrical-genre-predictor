@@ -2,6 +2,7 @@ import sys
 from vectorization import *
 from naive_bayes import *
 from svm import *
+from NN.neural_network import *
 
 
 def main():
@@ -43,11 +44,11 @@ def classify_songs(classifier_opts, vect_opts):
             # Skip categories we are not considering
             if category not in categories:
                 continue
-            if i < 1000:
+            if i < 30000:
                 #if category != 'Rock':
                 train_truth.append(category)
                 train_IDs.append(track)
-            elif i < 1200:
+            elif i < 32000:
                 #if category != 'Rock':
                 test_truth.append(category)
                 test_IDs.append(track)
@@ -71,15 +72,23 @@ def classify_songs(classifier_opts, vect_opts):
         predicted_test_categories = ensemble_svm(train_matrix,
                                                  test_matrix,
                                                  train_truth)
+    elif classifier_opts == "nn":
+        predicted_test_categories = neural_network(train_matrix,
+                                                 test_matrix,
+                                                 train_truth)
+
     else:
         print("Unrecognized classification")
         sys.exit(1)
 
-    print("Training cateogories", train_truth)
-
+    #print("Training cateogories", train_truth)
     print("Predicted", predicted_test_categories)
     print("Actual", test_truth)
-    print("Accuracy", np.sum(predicted_test_categories == test_truth)/len(test_truth))
+    ct = 0
+    for i in range(len(predicted_test_categories)):
+        if  predicted_test_categories[i] == test_truth[i]:
+            ct += 1
+    print("Accuracy", ct/len(test_truth))
 
     return predicted_test_categories, test_truth
 
