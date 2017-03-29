@@ -1,3 +1,7 @@
+# Alexandra Brown, Gabriel Hodge, Noriyuki Kojima, Harry Zhang
+# EECS 486 Final Project - W17
+# Lyrical Genre Predictor
+
 import sys
 from vectorization import *
 from naive_bayes import *
@@ -9,8 +13,9 @@ usage_string = "python3 main.py [naive_bayes | svm | neural_network] [tf_idf | c
 num_training_tracks = 5000
 num_testing_tracks = 20
 
+
 def main():
-    
+
     """
     TODO: allow lyrics to be read from an optional filename
     """
@@ -21,7 +26,8 @@ def main():
 
     classifier_opts = sys.argv[1]
     vect_opts = sys.argv[2]
-    predicted_test_categories, test_truth = classify_songs(classifier_opts, vect_opts)
+    predicted_test_categories, test_truth = classify_songs(classifier_opts,
+                                                           vect_opts)
     evaluation(predicted_test_categories, test_truth)
 
 
@@ -34,11 +40,7 @@ def classify_songs(classifier_opts, vect_opts):
     category_counts = {"Pop": 0, "Rock": 0, "Country": 0,
                        "Blues": 0, "Rap": 0}
     test_counts = {"Pop": 0, "Rock": 0, "Country": 0,
-                       "Blues": 0, "Rap": 0}
-
-    # categories = ["Country", "Rap"]
-    # category_counts = {"Country": 0, "Rap": 0}
-    # test_counts = {"Country": 0, "Rap": 0}
+                   "Blues": 0, "Rap": 0}
     
     train_truth = []
     test_truth = []
@@ -46,11 +48,11 @@ def classify_songs(classifier_opts, vect_opts):
     train_IDs = []
     test_IDs = []
 
-    # Go thru the track list and set aside tracks for training and testing 
+    # Go thru the track list and set aside tracks for training and testing
     with open("msd_tagtraum_cd2c.cls") as f:
         for line in f:
             try:
-                track, category = line.strip().split(None, 1) # max split once
+                track, category = line.strip().split(None, 1)  # max split once
             except:
                 print("Line error", line)
                 exit(1)
@@ -78,7 +80,7 @@ def classify_songs(classifier_opts, vect_opts):
 
     # vectorize train and test
     train_matrix, test_matrix = vectorization(train_IDs, test_IDs, vect_opts)
-    
+
     # classify based on classifier_opts
     if classifier_opts == "naive_bayes":
         predicted_test_categories = naive_bayes_classifier(train_matrix,
@@ -88,7 +90,8 @@ def classify_songs(classifier_opts, vect_opts):
         predicted_test_categories = svm(train_matrix, test_matrix, train_truth)
 
     elif classifier_opts == "neural_network":
-        predicted_test_categories = neural_network(train_matrix, test_matrix, train_truth)
+        predicted_test_categories = neural_network(train_matrix,
+                                                   test_matrix, train_truth)
 
     else:
         print("Unrecognized classification")
@@ -122,7 +125,6 @@ def evaluation(predicted_test_categories, test_truth):
     print("Micro F1 Score ", f1)
     f1 = f1_score(test_truth, predicted_test_categories, average='macro')
     print("Macro F1 Score ", f1)
-
 
 
 if __name__ == "__main__":
