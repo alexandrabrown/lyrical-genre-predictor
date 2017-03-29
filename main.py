@@ -88,9 +88,10 @@ print(category_counts)
                                                     test_matrix,
                                                     train_truth)
     elif classifier_opts == "kmeans":
-        predicted_test_categories = neural_network(train_matrix,
-                                                   test_matrix,
-                                                   train_truth)
+        pass
+        #predicted_test_categories = neural_network(train_matrix,
+        #                                          test_matrix,
+        #                                         train_truth)
 
 else:
     print("Unrecognized classification")
