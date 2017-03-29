@@ -84,11 +84,16 @@ def classify_songs(classifier_opts, vect_opts):
 
 
 def evaluation(predicted_test_categories, test_truth):
-    numCorrect = 0
+    num_correct = 0
     for i in range(len(test_truth)):
         if predicted_test_categories[i] == test_truth[i]:
-            numCorrect += 1
-    print("Correctly predicted " + str(numCorrect) + " out of " + str(len(test_truth)))
+            num_correct += 1
+    print("Correctly predicted " + str(num_correct) + " out of " + str(len(test_truth)))
+
+    f1 = f1_score(test_truth, predicted_test_categories, average='micro')
+    print("Micro F1 Score ", f1)
+    f1 = f1_score(test_truth, predicted_test_categories, average='macro')
+    print("Macro F1 Score ", f1)
 
 
 if __name__ == "__main__":
