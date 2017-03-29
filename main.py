@@ -8,11 +8,11 @@ from naive_bayes import *
 from database import *
 from sklearn.metrics import *
 from svm import *
-from NN.neural_network import *
+# from NN.neural_network import *
 
 usage_string = "python3 main.py [naive_bayes | svm | neural_network] [tf_idf | count | binary]"
-num_training_tracks = 5000
-num_testing_tracks = 20
+num_training_tracks = 100
+num_testing_tracks = 10
 
 
 def main():
@@ -123,7 +123,7 @@ def evaluation(predicted_test_categories, test_truth):
     microR = recall_score(test_truth, predicted_test_categories, average='micro') 
     print("Micro recall ", microR)
     macroR = recall_score(test_truth, predicted_test_categories, average='macro')
-    print("Macro recall, ", macroR)
+    print("Macro recall ", macroR)
 
     f1 = f1_score(test_truth, predicted_test_categories, average='micro')
     print("Micro F1 Score ", f1)
