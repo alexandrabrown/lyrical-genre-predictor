@@ -1,6 +1,7 @@
 import sys
 from vectorization import *
 from naive_bayes import *
+from sklearn.metrics import f1_score
 
 
 def main():
