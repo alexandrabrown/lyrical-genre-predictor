@@ -4,6 +4,8 @@ from naive_bayes import *
 from sklearn.metrics import *
 
 usage_string = "python3 main.py [naive_bayes | svm] [tf_idf | count | binary]"
+num_training_tracks = 5000
+num_testing_tracks = 20
 
 def main():
     
@@ -26,9 +28,15 @@ def classify_songs(classifier_opts, vect_opts):
     """
     Load the IDs
     """
-    categories = ["Pop", "Rock", "Country", "Blues", "Jazz", "Rap"]
+    categories = ["Pop", "Rock", "Country", "Blues", "Rap"]
     category_counts = {"Pop": 0, "Rock": 0, "Country": 0,
-                       "Blues": 0, "Jazz": 0, "Rap": 0}
+                       "Blues": 0, "Rap": 0}
+    test_counts = {"Pop": 0, "Rock": 0, "Country": 0,
+                       "Blues": 0, "Rap": 0}
+
+    # categories = ["Country", "Rap"]
+    # category_counts = {"Country": 0, "Rap": 0}
+    # test_counts = {"Country": 0, "Rap": 0}
     
     train_truth = []
     test_truth = []
@@ -38,7 +46,6 @@ def classify_songs(classifier_opts, vect_opts):
 
     # Go thru the track list and set aside tracks for training and testing 
     with open("msd_tagtraum_cd2c.cls") as f:
-        i = 0
         for line in f:
             try:
                 track, category = line.strip().split(None, 1) # max split once
@@ -49,22 +56,23 @@ def classify_songs(classifier_opts, vect_opts):
             # Skip categories we are not considering
             if category not in categories:
                 continue
-            if i < 20000:
 
-                # Make sure we have at least x songs in each genre
-                if category_counts[category] < 500:
-                    train_truth.append(category)
-                    train_IDs.append(track)
-                    category_counts[category] += 1
+            if category_counts[category] < num_training_tracks:
+                train_truth.append(category)
+                train_IDs.append(track)
+                category_counts[category] += 1
 
-            elif i < 20100:
-                test_truth.append(category)
-                test_IDs.append(track)
-            else:
+            elif test_counts[category] < num_testing_tracks:
+                    test_truth.append(category)
+                    test_IDs.append(track)
+                    test_counts[category] += 1
+
+            counts = test_counts.values()
+            if min(counts) == num_testing_tracks:
                 break
-            i += 1
 
     print(category_counts)
+    print(test_counts)
 
     # vectorize train and test
     train_matrix, test_matrix = vectorization(train_IDs, test_IDs, vect_opts)
