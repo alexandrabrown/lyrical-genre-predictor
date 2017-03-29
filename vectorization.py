@@ -1,4 +1,5 @@
 import tf_idf
+import count_vec
 import database
 
 def vectorization(train_IDs, test_IDs, vect_opts):
@@ -10,6 +11,8 @@ def vectorization(train_IDs, test_IDs, vect_opts):
 
     if vect_opts == "tf_idf":
         return tf_idf.tf_idf_vectorize(train_lyrics, test_lyrics, "dense")
+	else vect_opts == "count":
+		return count_vec.count_vectorize(train_lyrics, test_lyrics, "dense")
     else:
         print("Unrecognized vectorization")
         sys.exit(1)

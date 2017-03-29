@@ -5,8 +5,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 def tf_idf_vectorize(train_lyrics, test_lyrics, option):
     """
     TF-IDF vectorizer
-    Input: two lists of strings
-    Output: If "dense" is set, two dense tf-idf matrices (training and testing)
+    Input: two lists of strings and one option
+    Output: If "dense" is set, two dense matrices (training and testing)
             If "sparse" is set, one sparse matrix, 
             the length of training, and the length of testing
     Example: tf_idf_vectorize(train_lyrics, test_lyrics, "sparse")
@@ -15,7 +15,6 @@ def tf_idf_vectorize(train_lyrics, test_lyrics, option):
     corpus = train_lyrics + test_lyrics
     
     vectorizer = TfidfVectorizer(min_df=1)
-    vectorizer.fit_transform(corpus)
 
     if option == "dense":
         dmatrix = vectorizer.fit_transform(corpus).toarray()
@@ -26,10 +25,5 @@ def tf_idf_vectorize(train_lyrics, test_lyrics, option):
     else:
         print ("Invalid option.\nCheck usage.\n")
 
-# def main():
-#    print (tf_idf_vectorize([], []))
-
-if __name__ == '__main__':
-    sys.exit(int(main() or 0))
 
 
