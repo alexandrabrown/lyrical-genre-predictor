@@ -1,7 +1,7 @@
 import sys
 from vectorization import *
 from naive_bayes import *
-from sklearn.metrics import f1_score
+from sklearn.metrics import *
 
 
 def main():
@@ -90,10 +90,21 @@ def evaluation(predicted_test_categories, test_truth):
             num_correct += 1
     print("Correctly predicted " + str(num_correct) + " out of " + str(len(test_truth)))
 
+    microP = precision_score(test_truth, predicted_test_categories, average='micro')
+    print("Micro precision ", microP)
+    macroP = precision_score(test_truth, predicted_test_categories, average='macro')
+    print("Macro precision ", macroP)
+
+    microR = recall_score(test_truth, predicted_test_categories, average='micro') 
+    print("Micro recall ", microR)
+    macroR = recall_score(test_truth, predicted_test_categories, average='macro')
+    print("Macro recall, ", macroR)
+
     f1 = f1_score(test_truth, predicted_test_categories, average='micro')
     print("Micro F1 Score ", f1)
     f1 = f1_score(test_truth, predicted_test_categories, average='macro')
     print("Macro F1 Score ", f1)
+
 
 
 if __name__ == "__main__":
