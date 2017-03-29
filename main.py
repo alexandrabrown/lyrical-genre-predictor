@@ -6,7 +6,7 @@ from naive_bayes import *
 def main():
     
     """
-    Usage: python3 main.py <naive_bayes><svm> <tf_idf>
+    Usage: python3 main.py <naive_bayes><svm> <tf_idf><count><binary>
     TODO: allow lyrics to be read from an optional filename
     """
 
