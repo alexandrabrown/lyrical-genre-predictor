@@ -5,6 +5,7 @@
 import sys
 from vectorization import *
 from naive_bayes import *
+from database import *
 from sklearn.metrics import *
 from svm import *
 from NN.neural_network import *
@@ -59,6 +60,9 @@ def classify_songs(classifier_opts, vect_opts):
 
             # Skip categories we are not considering
             if category not in categories:
+                continue
+
+            if not track_has_lyrics(track):
                 continue
 
             if category_counts[category] < num_training_tracks:
