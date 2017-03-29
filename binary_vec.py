@@ -4,7 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 def binary_vectorize(train_lyrics, test_lyrics, option):
     """
     Binary vectorizer
-	Input: two lists of strings and one option
+    Input: two lists of strings and one option
     Output: If "dense" is set, two dense matrices (training and testing)
             If "sparse" is set, one sparse matrix, 
             the length of training, and the length of testing
