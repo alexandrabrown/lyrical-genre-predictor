@@ -23,7 +23,9 @@ def tf_idf_vectorize(train_lyrics, test_lyrics, option):
     elif option == "sparse":
         return vectorizer.fit_transform(corpus), len(train_lyrics), len(test_lyrics)
     else:
-        print ("Invalid option.\nCheck usage.\n")
+        print ("Invalid option!")
+        print("Error! USAGE: " + usage_string)
+        sys.exit(1)
 
 
 

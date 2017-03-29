@@ -3,13 +3,17 @@ from vectorization import *
 from naive_bayes import *
 from sklearn.metrics import *
 
+usage_string = "python3 main.py [naive_bayes | svm] [tf_idf | count | binary]"
 
 def main():
     
     """
-    Usage: python3 main.py <naive_bayes><svm> <tf_idf><count><binary>
     TODO: allow lyrics to be read from an optional filename
     """
+
+    if len(sys.argv) != 3:
+        print("Error! USAGE: " + usage_string)
+        sys.exit(1)
 
     classifier_opts = sys.argv[1]
     vect_opts = sys.argv[2]
@@ -75,6 +79,7 @@ def classify_songs(classifier_opts, vect_opts):
 
     else:
         print("Unrecognized classification")
+        print("Error! USAGE: " + usage_string)
         sys.exit(1)
 
     print("Predicted", predicted_test_categories)

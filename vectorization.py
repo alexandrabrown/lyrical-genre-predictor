@@ -3,6 +3,7 @@ import count_vec
 import binary_vec
 import database
 import sys
+from main import usage_string
 
 def vectorization(train_IDs, test_IDs, vect_opts, output_matrix="dense"):
     train_lyrics = []
@@ -18,4 +19,5 @@ def vectorization(train_IDs, test_IDs, vect_opts, output_matrix="dense"):
         return binary_vec.binary_vectorize(train_lyrics, test_lyrics, output_matrix)
     else:
         print("Unrecognized vectorization")
+        print("Error! USAGE: " + usage_string)
         sys.exit(1)
