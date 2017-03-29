@@ -17,6 +17,7 @@ def get_track(track_id):
 def get_track_list(track_ids):
     return [get_track(id) for id in track_ids]
 
+
 def track_has_lyrics(track_id):
     c = conn.cursor()
     c.execute('SELECT word FROM Lyrics WHERE track_id="%s"' % track_id)
