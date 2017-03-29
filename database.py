@@ -21,4 +21,4 @@ def get_track_list(track_ids):
 def track_has_lyrics(track_id):
     c = conn.cursor()
     c.execute('SELECT word FROM Lyrics WHERE track_id="%s"' % track_id)
-    return c.rowcount != -1
+    return (len(c.fetchall()) != 0)
