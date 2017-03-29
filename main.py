@@ -23,6 +23,8 @@ def classify_songs(classifier_opts, vect_opts):
     Load the IDs
     """
     categories = ["Pop", "Rock", "Country", "Blues", "Jazz", "Rap"]
+    category_counts = {"Pop": 0, "Rock": 0, "Country": 0,
+                       "Blues": 0, "Jazz": 0, "Rap": 0}
     
     train_truth = []
     test_truth = []
@@ -43,15 +45,22 @@ def classify_songs(classifier_opts, vect_opts):
             # Skip categories we are not considering
             if category not in categories:
                 continue
-            if i < 1000:
-                train_truth.append(category)
-                train_IDs.append(track)
-            elif i < 1001:
+            if i < 20000:
+
+                # Make sure we have at least x songs in each genre
+                if category_counts[category] < 500:
+                    train_truth.append(category)
+                    train_IDs.append(track)
+                    category_counts[category] += 1
+
+            elif i < 20100:
                 test_truth.append(category)
                 test_IDs.append(track)
             else:
                 break
             i += 1
+
+    print(category_counts)
 
     # vectorize train and test
     train_matrix, test_matrix = vectorization(train_IDs, test_IDs, vect_opts)
@@ -68,8 +77,6 @@ def classify_songs(classifier_opts, vect_opts):
         print("Unrecognized classification")
         sys.exit(1)
 
-    print("Training cateogories", train_truth)
-
     print("Predicted", predicted_test_categories)
     print("Actual", test_truth)
 
@@ -77,7 +84,11 @@ def classify_songs(classifier_opts, vect_opts):
 
 
 def evaluation(predicted_test_categories, test_truth):
-    pass
+    numCorrect = 0
+    for i in range(len(test_truth)):
+        if predicted_test_categories[i] == test_truth[i]:
+            numCorrect += 1
+    print("Correctly predicted " + str(numCorrect) + " out of " + str(len(test_truth)))
 
 
 if __name__ == "__main__":

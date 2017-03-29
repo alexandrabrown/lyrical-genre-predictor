@@ -2,6 +2,7 @@ import tf_idf
 import count_vec
 import binary_vec
 import database
+import sys
 
 def vectorization(train_IDs, test_IDs, vect_opts, output_matrix="dense"):
     train_lyrics = []
