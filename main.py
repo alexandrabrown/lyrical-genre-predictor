@@ -76,6 +76,10 @@ def classify_songs(classifier_opts, vect_opts):
         predicted_test_categories = neural_network(train_matrix,
                                                  test_matrix,
                                                  train_truth)
+    elif classifier_opts == "kmeans":
+        predicted_test_categories = neural_network(train_matrix,
+                                                 test_matrix,
+                                                 train_truth)
 
     else:
         print("Unrecognized classification")

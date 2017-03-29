@@ -1,15 +1,16 @@
+import sys
 import tf_idf
-import load_from_db
+import database
 
-def vectorization(train_ID, test_ID, vect_opts):
+def vectorization(train_IDs, test_IDs, vect_opts):
     train_lyrics = []
     test_lyrics = []
-    for id in train_ID:
-        train_lyrics.append(load_from_db.get_track(id))
-    for id in test_ID:
-        test_lyrics.append(load_from_db.get_track(id))
+    train_lyrics = database.get_track_list(train_IDs)
+    test_lyrics = database.get_track_list(test_IDs)
 
 
     if vect_opts == "tf_idf":
-		return tf_idf.tf_idf_vectorize(train_lyrics, test_lyrics, "dense")
-		
+        return tf_idf.tf_idf_vectorize(train_lyrics, test_lyrics, "dense")
+    else:
+        print("Unrecognized vectorization")
+        sys.exit(1)
