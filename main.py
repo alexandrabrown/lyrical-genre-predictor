@@ -2,8 +2,10 @@ import sys
 from vectorization import *
 from naive_bayes import *
 from sklearn.metrics import *
+from svm import *
+from NN.neural_network import *
 
-usage_string = "python3 main.py [naive_bayes | svm] [tf_idf | count | binary]"
+usage_string = "python3 main.py [naive_bayes | svm | neural_network] [tf_idf | count | binary]"
 num_training_tracks = 5000
 num_testing_tracks = 20
 
@@ -83,7 +85,10 @@ def classify_songs(classifier_opts, vect_opts):
                                                            test_matrix,
                                                            train_truth)
     elif classifier_opts == "svm":
-        pass
+        predicted_test_categories = svm(train_matrix, test_matrix, train_truth)
+
+    elif classifier_opts == "neural_network":
+        predicted_test_categories = neural_network(train_matrix, test_matrix, train_truth)
 
     else:
         print("Unrecognized classification")
