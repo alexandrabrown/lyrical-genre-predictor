@@ -10,7 +10,7 @@ from sklearn.metrics import *
 from svm import *
 # from NN.neural_network import *
 
-usage_string = "python3 main.py [naive_bayes | svm | neural_network] [tf_idf | count | binary]"
+usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network]"
 num_training_tracks = 100
 num_testing_tracks = 10
 
@@ -25,8 +25,8 @@ def main():
         print("Error! USAGE: " + usage_string)
         sys.exit(1)
 
-    classifier_opts = sys.argv[1]
-    vect_opts = sys.argv[2]
+    vect_opts = sys.argv[1]
+    classifier_opts = sys.argv[2]
     predicted_test_categories, test_truth = classify_songs(classifier_opts,
                                                            vect_opts)
     evaluation(predicted_test_categories, test_truth)
