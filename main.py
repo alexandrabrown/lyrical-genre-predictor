@@ -5,13 +5,14 @@
 import sys
 from vectorization import *
 from naive_bayes import *
+from database import *
 from sklearn.metrics import *
 from svm import *
-from NN.neural_network import *
+# from NN.neural_network import *
 
-usage_string = "python3 main.py [naive_bayes | svm | neural_network] [tf_idf | count | binary]"
-num_training_tracks = 5000
-num_testing_tracks = 20
+usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network]"
+num_training_tracks = 100
+num_testing_tracks = 10
 
 
 def main():
@@ -24,8 +25,8 @@ def main():
         print("Error! USAGE: " + usage_string)
         sys.exit(1)
 
-    classifier_opts = sys.argv[1]
-    vect_opts = sys.argv[2]
+    vect_opts = sys.argv[1]
+    classifier_opts = sys.argv[2]
     predicted_test_categories, test_truth = classify_songs(classifier_opts,
                                                            vect_opts)
     evaluation(predicted_test_categories, test_truth)
@@ -59,6 +60,9 @@ def classify_songs(classifier_opts, vect_opts):
 
             # Skip categories we are not considering
             if category not in categories:
+                continue
+
+            if not track_has_lyrics(track):
                 continue
 
             if category_counts[category] < num_training_tracks:
@@ -119,7 +123,7 @@ def evaluation(predicted_test_categories, test_truth):
     microR = recall_score(test_truth, predicted_test_categories, average='micro') 
     print("Micro recall ", microR)
     macroR = recall_score(test_truth, predicted_test_categories, average='macro')
-    print("Macro recall, ", macroR)
+    print("Macro recall ", macroR)
 
     f1 = f1_score(test_truth, predicted_test_categories, average='micro')
     print("Micro F1 Score ", f1)
