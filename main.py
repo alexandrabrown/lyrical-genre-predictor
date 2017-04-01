@@ -8,31 +8,39 @@ from naive_bayes import *
 from database import *
 from sklearn.metrics import *
 from svm import *
+from preprocess import *
 # from NN.neural_network import *
 
-usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network]"
+usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network] <optional_filename>"
 num_training_tracks = 100
 num_testing_tracks = 10
 
 
 def main():
-
-    """
-    TODO: allow lyrics to be read from an optional filename
-    """
-
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 3 and len(sys.argv) != 4:
         print("Error! USAGE: " + usage_string)
         sys.exit(1)
 
     vect_opts = sys.argv[1]
     classifier_opts = sys.argv[2]
+
+    filename = None
+
+    # Optional filename as input for lyrics
+    if len(sys.argv) == 4:
+        filename = sys.argv[3]
+
     predicted_test_categories, test_truth = classify_songs(classifier_opts,
-                                                           vect_opts)
-    evaluation(predicted_test_categories, test_truth)
+                                                           vect_opts, filename)
+
+    # Only perform evaluation on tracks where the genre is known
+    # If they're coming from the user, they could be anything
+    if not filename:
+        evaluation(predicted_test_categories, test_truth)
 
 
-def classify_songs(classifier_opts, vect_opts):
+# Based on the options, run a classifier on song lyrics
+def classify_songs(classifier_opts, vect_opts, filename):
 
     """
     Load the IDs
@@ -42,7 +50,7 @@ def classify_songs(classifier_opts, vect_opts):
                        "Blues": 0, "Rap": 0}
     test_counts = {"Pop": 0, "Rock": 0, "Country": 0,
                    "Blues": 0, "Rap": 0}
-    
+
     train_truth = []
     test_truth = []
 
@@ -65,22 +73,35 @@ def classify_songs(classifier_opts, vect_opts):
             if not track_has_lyrics(track):
                 continue
 
+            # Make sure we have enough training data
             if category_counts[category] < num_training_tracks:
                 train_truth.append(category)
                 train_IDs.append(track)
                 category_counts[category] += 1
 
-            elif test_counts[category] < num_testing_tracks:
+            # If reading from the database and we haven't
+            # reached our testing quota for tracks
+            elif not filename and test_counts[category] < num_testing_tracks:
                     test_truth.append(category)
                     test_IDs.append(track)
                     test_counts[category] += 1
 
-            counts = test_counts.values()
-            if min(counts) == num_testing_tracks:
-                break
+            else:
+
+                # Reading from user specified file
+                if filename:
+                    counts = category_counts.values()
+                    if min(counts) == num_training_tracks:
+                        test_IDs = read_file(filename, test_IDs)
+                        break
+                else:
+                    counts = test_counts.values()
+                    if min(counts) == num_testing_tracks:
+                        break
 
     print(category_counts)
-    print(test_counts)
+    if not filename:
+        print(test_counts)
 
     # vectorize train and test
     train_matrix, test_matrix = vectorization(train_IDs, test_IDs, vect_opts)
@@ -103,11 +124,50 @@ def classify_songs(classifier_opts, vect_opts):
         sys.exit(1)
 
     print("Predicted", predicted_test_categories)
-    print("Actual", test_truth)
+
+    if not filename:
+        print("Actual", test_truth)
 
     return predicted_test_categories, test_truth
 
 
+# Returns preprocessed list of tokens from input
+def preprocess(input):
+
+    tokenList = []
+
+    input = input.strip().lower()
+
+    # skip empty lines
+    if not input:
+        return tokenList
+
+    tokenList = tokenizeText(input)
+
+    # Remove various punctuation to make output more comprehensible
+    tokenList = [token.replace('.', '') for token in tokenList]
+    tokenList = [token.replace('"', '') for token in tokenList]
+    tokenList = [token.replace(',', '') for token in tokenList]
+    tokenList = [token.replace('\'', '') for token in tokenList]
+
+    tokenList = removeStopwords(tokenList)
+    tokenList = stemWords(tokenList)
+
+    return tokenList
+
+
+# Use data from filename as test data for the system
+# Each song should be on its own line
+def read_file(filename, test_IDs):
+    with open(filename) as test_file:
+        for track in test_file:
+            lyrics = str(preprocess(track))
+            print(lyrics)
+            test_IDs.append(lyrics)
+    return test_IDs
+
+
+# Evaluate based on the true categories and the predicted categories
 def evaluation(predicted_test_categories, test_truth):
     num_correct = 0
     for i in range(len(test_truth)):

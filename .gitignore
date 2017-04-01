@@ -226,3 +226,5 @@ pip-log.txt
 *.pyproj
 *.sln
 test
+
+*.in
