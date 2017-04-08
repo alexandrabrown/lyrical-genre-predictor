@@ -13,7 +13,7 @@ from svm import *
 from lyrics_to_bow import *
 # from NN.neural_network import *
 
-usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | rocchio | knn | svm | neural_network] <optional_filename>"
+usage_string = "python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | neural_network] <optional_filename>"
 num_training_tracks = 100
 num_testing_tracks = 10
 
@@ -25,6 +25,10 @@ def main():
 
     vect_opts = sys.argv[1]
     classifier_opts = sys.argv[2]
+
+    if vect_opts == "lsa" and classifier_opts == "naive_bayes":
+        print("Error! LSA and Naive Bayes do not work together!")
+        sys.exit(1)
 
     filename = None
 
