@@ -10,7 +10,7 @@ from knn import *
 from database import *
 from sklearn.metrics import *
 from svm import *
-from preprocess import *
+from lyrics_to_bow import *
 # from NN.neural_network import *
 
 usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | rocchio | knn | svm | neural_network] <optional_filename>"
@@ -92,21 +92,24 @@ def classify_songs(classifier_opts, vect_opts, filename):
 
                 # Reading from user specified file
                 if filename:
-                    counts = category_counts.values()
-                    if min(counts) == num_training_tracks:
-                        test_IDs = read_file(filename, test_IDs)
+                    if min(category_counts.values()) == num_training_tracks:
                         break
-                else:
-                    counts = test_counts.values()
-                    if min(counts) == num_testing_tracks:
-                        break
+                if min(test_counts.values()) == num_testing_tracks:
+                    break
 
     print(category_counts)
+    train_lyrics = database.get_track_list(train_IDs)
+
+    # If reading from DB
     if not filename:
         print(test_counts)
+        test_lyrics = database.get_track_list(test_IDs)
+    # Reading from user file
+    else:
+        test_lyrics = read_file(filename)
 
     # vectorize train and test
-    train_matrix, test_matrix = vectorization(train_IDs, test_IDs, vect_opts)
+    train_matrix, test_matrix = vectorization(train_lyrics, test_lyrics, vect_opts)
 
     # classify based on classifier_opts
     if classifier_opts == "naive_bayes":
@@ -141,40 +144,19 @@ def classify_songs(classifier_opts, vect_opts, filename):
     return predicted_test_categories, test_truth
 
 
-# Returns preprocessed list of tokens from input
-def preprocess(input):
-
-    tokenList = []
-
-    input = input.strip().lower()
-
-    # skip empty lines
-    if not input:
-        return tokenList
-
-    tokenList = tokenizeText(input)
-
-    # Remove various punctuation to make output more comprehensible
-    tokenList = [token.replace('.', '') for token in tokenList]
-    tokenList = [token.replace('"', '') for token in tokenList]
-    tokenList = [token.replace(',', '') for token in tokenList]
-    tokenList = [token.replace('\'', '') for token in tokenList]
-
-    tokenList = removeStopwords(tokenList)
-    tokenList = stemWords(tokenList)
-
-    return tokenList
-
-
 # Use data from filename as test data for the system
 # Each song should be on its own line
-def read_file(filename, test_IDs):
+def read_file(filename):
+    test_lyrics = []
     with open(filename) as test_file:
         for track in test_file:
-            lyrics = str(preprocess(track))
-            print(lyrics)
-            test_IDs.append(lyrics)
-    return test_IDs
+            bow = lyrics_to_bow(track)
+            lyrics = []
+            for word, count in bow.items():
+                lyrics.extend([word for i in range(count)])
+            lyrics = " ".join(lyrics)
+            test_lyrics.append(lyrics)
+    return test_lyrics
 
 
 # Evaluate based on the true categories and the predicted categories
