@@ -12,8 +12,8 @@ from preprocess import *
 # from NN.neural_network import *
 
 usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network] <optional_filename>"
-num_training_tracks = 100
-num_testing_tracks = 10
+num_training_tracks = 1000
+num_testing_tracks = 100
 
 
 def main():
