@@ -1,4 +1,4 @@
-from sklearn.naive_bayes import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifier
 
 def knn_classifier(train_matrix, test_matrix, train_categories, k=3):
     """

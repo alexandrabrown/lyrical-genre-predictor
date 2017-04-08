@@ -1,4 +1,4 @@
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.neighbors import NearestCentroid
 
 def rocchio_classifier(train_matrix, test_matrix, train_categories):
     """
