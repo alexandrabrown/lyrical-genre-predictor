@@ -9,11 +9,12 @@ from database import *
 from sklearn.metrics import *
 from svm import *
 from preprocess import *
+from cluster import *
 from NN.neural_network import *
 
 usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network] <optional_filename>"
-num_training_tracks = 100
-num_testing_tracks = 10
+num_training_tracks = 1000
+num_testing_tracks = 100
 
 
 def main():
@@ -117,6 +118,17 @@ def classify_songs(classifier_opts, vect_opts, filename):
     elif classifier_opts == "neural_network":
         predicted_test_categories = neural_network(train_matrix,
                                                    test_matrix, train_truth)
+    elif classifier_opts == "kmeans": # kmeans  clustering
+        predicted_test_categories = kmeans(train_matrix,
+                                                    test_matrix, train_truth)
+    elif classifier_opts == "agglomerative": # kmeans  clustering
+        predicted_test_categories = agglomerative(train_matrix,
+                                           test_matrix, train_truth)
+    elif classifier_opts == "spectral": # kmeans  clustering
+        predicted_test_categories = spectral(train_matrix,
+                                                  test_matrix, train_truth)
+
+
 
     else:
         print("Unrecognized classification")
