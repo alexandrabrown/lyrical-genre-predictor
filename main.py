@@ -5,13 +5,15 @@
 import sys
 from vectorization import *
 from naive_bayes import *
+from rocchio import *
+from knn import *
 from database import *
 from sklearn.metrics import *
 from svm import *
 from preprocess import *
 # from NN.neural_network import *
 
-usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | svm | neural_network] <optional_filename>"
+usage_string = "python3 main.py [tf_idf | count | binary] [naive_bayes | rocchio | knn | svm | neural_network] <optional_filename>"
 num_training_tracks = 100
 num_testing_tracks = 10
 
@@ -109,6 +111,14 @@ def classify_songs(classifier_opts, vect_opts, filename):
     # classify based on classifier_opts
     if classifier_opts == "naive_bayes":
         predicted_test_categories = naive_bayes_classifier(train_matrix,
+                                                           test_matrix,
+                                                           train_truth)
+    elif classifier_opts == "rocchio":
+        predicted_test_categories = rocchio_classifier(train_matrix,
+                                                           test_matrix,
+                                                           train_truth)
+    elif classifier_opts == "knn":
+        predicted_test_categories = knn_classifier(train_matrix,
                                                            test_matrix,
                                                            train_truth)
     elif classifier_opts == "svm":
