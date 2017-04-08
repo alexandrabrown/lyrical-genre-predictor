@@ -7,13 +7,14 @@ from vectorization import *
 from naive_bayes import *
 from rocchio import *
 from knn import *
+from cluster import *
 from database import *
 from sklearn.metrics import *
 from svm import *
 from lyrics_to_bow import *
 # from NN.neural_network import *
 
-usage_string = "python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | neural_network] <optional_filename>"
+usage_string = "python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | kmeans | agglomerative | spectral | neural_network] <optional_filename>"
 num_training_tracks = 100
 num_testing_tracks = 10
 
@@ -130,6 +131,17 @@ def classify_songs(classifier_opts, vect_opts, filename):
                                                            train_truth)
     elif classifier_opts == "svm":
         predicted_test_categories = svm(train_matrix, test_matrix, train_truth)
+
+    elif classifier_opts == "kmeans":
+        predicted_test_categories = kmeans(train_matrix, test_matrix, train_truth)
+
+
+    elif classifier_opts == "agglomerative":
+        predicted_test_categories = agglomerative(train_matrix, test_matrix, train_truth)
+
+    elif classifier_opts == "spectral":
+        predicted_test_categories = spectral(train_matrix, test_matrix, train_truth)
+
 
     elif classifier_opts == "neural_network":
         predicted_test_categories = neural_network(train_matrix,
