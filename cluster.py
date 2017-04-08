@@ -13,7 +13,7 @@ def majority_vote(k, prediction, train_truth):
     for idx in range(k):
         tp_ls = [train_truth[i] for i, item in enumerate(prediction) if item == idx]
         # tp_ls = [print('here') for i,item in enumerate(prediction) if item == idx]
-        print(tp_ls)
+        # print(tp_ls)
         assignment.append(most_common(tp_ls))
 
     return assignment
@@ -49,5 +49,3 @@ def spectral(train_matrix, test_matrix, train_truth):
     predicted_test_categories = [assignment[idx] for idx in prediction[train_matrix.shape[0]:]]
 
     return predicted_test_categories
-
-
