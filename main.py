@@ -63,22 +63,23 @@ def classify_songs(classifier_opts, vect_opts, filename):
 
     train_IDs = []
     test_IDs = []
+    test_songs = []
 
     # Go thru the track list and set aside tracks for training and testing
-    with open("msd_tagtraum_cd2c.cls") as f:
+    with open("songs_input.txt") as f:
         for line in f:
             try:
-                track, category = line.strip().split(None, 1)  # max split once
+                track, category, songinfo = line.strip().split("<sep>", 2)  # max split once
             except:
                 print("Line error", line)
                 exit(1)
 
             # Skip categories we are not considering
-            if category not in categories:
-                continue
+            #if category not in categories:
+            #    continue
 
-            if not track_has_lyrics(track):
-                continue
+            #if not track_has_lyrics(track):
+            #    continue
 
             # Make sure we have enough training data
             if category_counts[category] < num_training_tracks:
@@ -92,6 +93,7 @@ def classify_songs(classifier_opts, vect_opts, filename):
                     test_truth.append(category)
                     test_IDs.append(track)
                     test_counts[category] += 1
+                    test_songs.append(songinfo)
 
             else:
 
@@ -153,10 +155,16 @@ def classify_songs(classifier_opts, vect_opts, filename):
         print("Error! USAGE: " + usage_string)
         sys.exit(1)
 
-    print("Predicted", predicted_test_categories)
+    # print("Predicted", predicted_test_categories)
 
     if not filename:
-        print("Actual", test_truth)
+        with open("predictions_output.txt", "w") as f:
+            f.write("#trackid\tgenre\tprediction\tsong info\n")
+            for id, truth, predict, songinfo in zip(test_IDs, test_truth,
+                                                    predicted_test_categories,
+                                                    test_songs):
+                f.write("%s %s %s\t%s\n" % (id, truth,  predict, songinfo))
+        # print("Actual", test_truth)
 
     return predicted_test_categories, test_truth
 
