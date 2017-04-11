@@ -155,7 +155,9 @@ def classify_songs(classifier_opts, vect_opts, filename):
         print("Error! USAGE: " + usage_string)
         sys.exit(1)
 
-    # print("Predicted", predicted_test_categories)
+    # If user inputted file, output predictions to the terminal
+    if filename:
+        print("Predicted", predicted_test_categories)
 
     if not filename:
         with open("predictions_output.txt", "w") as f:
