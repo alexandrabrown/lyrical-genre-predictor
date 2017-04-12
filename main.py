@@ -104,16 +104,16 @@ def classify_songs(classifier_opts, vect_opts, filename):
                 if min(test_counts.values()) == num_testing_tracks:
                     break
 
-    print(category_counts)
-    train_lyrics = database.get_track_list(train_IDs)
-
     # If reading from DB
     if not filename:
-        print(test_counts)
+        print("Testing data: ", test_counts)
         test_lyrics = database.get_track_list(test_IDs)
     # Reading from user file
     else:
         test_lyrics = read_file(filename)
+
+    print("Training data: ", category_counts)
+    train_lyrics = database.get_track_list(train_IDs)
 
     # vectorize train and test
     train_matrix, test_matrix = vectorization(train_lyrics, test_lyrics, vect_opts)
@@ -180,8 +180,13 @@ def read_file(filename):
             bow = lyrics_to_bow(track)
             lyrics = []
             for word, count in bow.items():
-                lyrics.extend([word for i in range(count)])
+                # only use words in the lyrics database
+                if word_present(word):
+                    lyrics.extend([word for i in range(count)])
             lyrics = " ".join(lyrics)
+            if not lyrics:
+                print("At least one line in the input file has no words in the indexed database.")
+                sys.exit(1)
             test_lyrics.append(lyrics)
     return test_lyrics
 

@@ -22,3 +22,9 @@ def track_has_lyrics(track_id):
     c = conn.cursor()
     c.execute('SELECT word FROM Lyrics WHERE track_id="%s"' % track_id)
     return (len(c.fetchall()) != 0)
+
+
+def word_present(word):
+    c = conn.cursor()
+    c.execute('SELECT * from Words where word = "%s"' % word)
+    return (len(c.fetchall()) != 0)
