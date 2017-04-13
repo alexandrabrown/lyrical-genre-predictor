@@ -27,7 +27,20 @@ def svm(train_matrix, test_matrix, train_truth):
             L2Quad = SVC(kernel='poly', C=C_Quad[i],
                          coef0=R_Quad[j], degree=2,
                          class_weight='balanced')
+            # leave out one validation
 
+            accuracy = 0
+            for k in range(train_matrix.shape[0]):
+                one_out_matrix = np.delete(train_matrix, 1, axis = 0)
+                one_out_label = copy.deepcopy(train_truth)
+                del one_out_label[k]
+                val_matrix = train_matrix[k,:]
+                val_label = train_truth[k]
+                L2Quad.fit(one_out_matrix, one_out_label)
+                prediction = L2Quad.predict(val_matrix)
+                if val_label == prediction:
+                    accuracy += 1
+            accuracy_mat[i,j] = accuracy/(train_matrix.shape[0])
             L2Quad.fit(tp_train_matrix, tp_train_label)
             prediction = L2Quad.predict(validation_matrix)
             accuracy_mat[i,j] = np.sum(validation_label == prediction)
@@ -36,12 +49,10 @@ def svm(train_matrix, test_matrix, train_truth):
     L2Quad = SVC(kernel='poly', C=C_Quad[C_idx[0]],
                      coef0=R_Quad[R_idx[0]], degree=2,
                      class_weight='balanced')
-    print(C_idx[0], R_idx[0])
-    """
+                         """
     L2Quad = SVC(kernel='poly', C=C_Quad[3],
-                     coef0=R_Quad[2], degree=2,
-                     class_weight='balanced')
-    
+                coef0=R_Quad[2], degree=2,
+                class_weight='balanced')
     L2Quad.fit(train_matrix, train_truth)
     predicted_test_categories = L2Quad.predict(test_matrix)
 

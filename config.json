@@ -9,13 +9,13 @@
         "NN": {
             "CHECKPOINT": "NN/Model/cnn.ckpt",
             "LEARNING_RATE": 0.0005,
-            "NB_STEPS": 100,
+            "NB_STEPS": 3000,
             "BATCH_SIZE": 100,
 	    "DROPOUT_RATE": 0.5
         }
     },
     "MODEL": {
-        "CLASS_DIM": 6,
+        "CLASS_DIM": 5,
     }
 }
 

@@ -28,7 +28,7 @@ with open('mxm_779k_matches.txt') as f:
         if trackid in tracks:
             titles[trackid] = "%s; %s" % (title, artist)
 
-with open("songs.txt", "w") as f:
+with open("songs_input.txt", "w") as f:
     for track in tracks:
         f.write("%s<sep>%s<sep>%s\n" %
                 (track, genres[track], titles.get(track, "NOINFOFOUND")))

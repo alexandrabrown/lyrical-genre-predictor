@@ -15,7 +15,7 @@ def one_hot(train_truth):
     num_train_data = len(train_truth)
     classs_num = get('MODEL.CLASS_DIM')
     one_hot_vec = np.zeros([num_train_data, classs_num])
-    categories = ["Pop", "Rock", "Country", "Blues", "Jazz", "Rap"]
+    categories = ["Pop", "Rock", "Country", "Blues", "Rap"]
     for i in range(num_train_data):
         class_idx = categories.index(train_truth[i])
         one_hot_vec[i, class_idx] = 1
@@ -111,7 +111,7 @@ def train(train_matrix, train_label):
                     
 def test(test_matrix):
     tf.reset_default_graph() # Clear the model first
-    categories = ["Pop", "Rock", "Country", "Blues", "Jazz", "Rap"]
+    categories = ["Pop", "Rock", "Country", "Blues", "Rap"]
     prediction_ls = []
     input_dim = test_matrix.shape[1]
     #print(input_dim)
