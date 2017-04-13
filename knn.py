@@ -1,6 +1,6 @@
 from sklearn.neighbors import KNeighborsClassifier
 
-def knn_classifier(train_matrix, test_matrix, train_categories, k=3):
+def knn_classifier(train_matrix, test_matrix, train_categories, k=11):
     """
     K Nereast Neighbors Classifier
     Input: two Matrices of vector representations of train/test lyrics,
