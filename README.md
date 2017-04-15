@@ -20,6 +20,6 @@ usage:
 python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | kmeans | agglomerative | spectral | neural_network] <optional_filename>
 
 description:
-The program first vectorizes each training document (bag-of-words models) using the specified vectorization scheme, and then it classifies the testing documents using the specified algorithm. After training on 5000 testing documents evenly split between the five genres, if the optional_filename is not specified, it tests on another 500 documents; if it is specified, the program reads in the specified file and classfy it.
+The program first vectorizes each training document (bag-of-words models) using the specified vectorization scheme, and then it classifies the testing documents using the specified algorithm. After training on 5000 testing documents evenly split between the five genres, if the optional_filename is not specified, it tests on another 500 documents and outputs micro/macro precision/accuracy and F-score; if it is specified, the program reads in the specified file and classify it.
 
 
