@@ -15,6 +15,7 @@ requirements:
 scikit-learn
 tensorflow
 numpy
+scipy
 
 usage:
 ```
