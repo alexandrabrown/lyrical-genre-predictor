@@ -1,9 +1,3 @@
-"""
-EECS 445 - Introduction to Machine Learning
-Winter 2017 - Project 2
-Interface for reading config file
-"""
-
 import glob
 import os
 
