@@ -103,14 +103,14 @@ def classify_songs(classifier_opts, vect_opts, filename):
     # If reading from DB
     if not filename:
         print("Testing data: ", test_counts)
-        test_lyrics = database.get_track_list(test_IDs)
+        test_lyrics = get_track_list(test_IDs)
 
     # Reading from user file
     else:
         test_lyrics = read_file(filename)
 
     print("Training data: ", category_counts)
-    train_lyrics = database.get_track_list(train_IDs)
+    train_lyrics = get_track_list(train_IDs)
 
     # vectorize train and test
     train_matrix, test_matrix = vectorization(train_lyrics, test_lyrics,
