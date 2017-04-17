@@ -7,13 +7,13 @@ def tf_idf_vectorize(train_lyrics, test_lyrics, option):
     TF-IDF vectorizer
     Input: two lists of strings and one option
     Output: If "dense" is set, two dense matrices (training and testing)
-            If "sparse" is set, one sparse matrix, 
+            If "sparse" is set, one sparse matrix,
             the length of training, and the length of testing
     Example: tf_idf_vectorize(train_lyrics, test_lyrics, "sparse")
              tf_idf_vectorize(train_lyrics, test_lyrics, "dense")
     """
     corpus = train_lyrics + test_lyrics
-    
+
     vectorizer = TfidfVectorizer(min_df=1)
 
     if option == "dense":
@@ -26,6 +26,3 @@ def tf_idf_vectorize(train_lyrics, test_lyrics, option):
         print ("Invalid option!")
         print("Error! USAGE: " + usage_string)
         sys.exit(1)
-
-
-

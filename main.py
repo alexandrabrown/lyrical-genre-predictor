@@ -12,9 +12,12 @@ from database import *
 from sklearn.metrics import *
 from svm import *
 from lyrics_to_bow import *
-# from NN.neural_network import *
+# from NN.neural_network import * #  computation intensive
 
-usage_string = "python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | kmeans | agglomerative | spectral | neural_network] <optional_filename>"
+usage_string = '''python3 main.py [tf_idf | count | binary | lsa]
+                  [naive_bayes | rocchio | knn | svm | kmeans |
+                  agglomerative | spectral | neural_network]
+                  <optional_filename>'''
 num_training_tracks = 1000
 num_testing_tracks = 100
 
@@ -52,7 +55,6 @@ def classify_songs(classifier_opts, vect_opts, filename):
     """
     Load the IDs
     """
-    categories = ["Pop", "Rock", "Country", "Blues", "Rap"]
     category_counts = {"Pop": 0, "Rock": 0, "Country": 0,
                        "Blues": 0, "Rap": 0}
     test_counts = {"Pop": 0, "Rock": 0, "Country": 0,
@@ -69,17 +71,11 @@ def classify_songs(classifier_opts, vect_opts, filename):
     with open("songs_input.txt") as f:
         for line in f:
             try:
-                track, category, songinfo = line.strip().split("<sep>", 2)  # max split once
+                # max split once
+                track, category, songinfo = line.strip().split("<sep>", 2)
             except:
                 print("Line error", line)
                 exit(1)
-
-            # Skip categories we are not considering
-            #if category not in categories:
-            #    continue
-
-            #if not track_has_lyrics(track):
-            #    continue
 
             # Make sure we have enough training data
             if category_counts[category] < num_training_tracks:
@@ -108,6 +104,7 @@ def classify_songs(classifier_opts, vect_opts, filename):
     if not filename:
         print("Testing data: ", test_counts)
         test_lyrics = database.get_track_list(test_IDs)
+
     # Reading from user file
     else:
         test_lyrics = read_file(filename)
@@ -116,7 +113,8 @@ def classify_songs(classifier_opts, vect_opts, filename):
     train_lyrics = database.get_track_list(train_IDs)
 
     # vectorize train and test
-    train_matrix, test_matrix = vectorization(train_lyrics, test_lyrics, vect_opts)
+    train_matrix, test_matrix = vectorization(train_lyrics, test_lyrics,
+                                              vect_opts)
 
     # classify based on classifier_opts
     if classifier_opts == "naive_bayes":
@@ -159,14 +157,19 @@ def classify_songs(classifier_opts, vect_opts, filename):
     if filename:
         print("Predicted", predicted_test_categories)
 
+    # Dictionary to keep track of accuracies for each genre
+    accuracy_dict = {"Pop": 0, "Rock": 0, "Country": 0, "Blues": 0, "Rap": 0}
+
     if not filename:
         with open("predictions_output.txt", "w") as f:
             f.write("#trackid\tgenre\tprediction\tsong info\n")
             for id, truth, predict, songinfo in zip(test_IDs, test_truth,
                                                     predicted_test_categories,
                                                     test_songs):
-                f.write("%s %s %s\t%s\n" % (id, truth,  predict, songinfo))
-        # print("Actual", test_truth)
+                f.write("%s %s %s\t%s\n" % (id, truth, predict, songinfo))
+                if truth == predict:
+                    accuracy_dict[truth] += 1
+        print("Accuracy for genres", accuracy_dict)
 
     return predicted_test_categories, test_truth
 

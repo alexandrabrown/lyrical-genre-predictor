@@ -3,9 +3,7 @@
 from __future__ import division
 from sklearn.svm import SVC
 from sklearn.utils import resample
-import time
 import numpy as np
-import copy
 
 
 def svm(train_matrix, test_matrix, train_truth):
@@ -20,36 +18,7 @@ def svm(train_matrix, test_matrix, train_truth):
     validation_label = train_truth[sep:]
     tp_train_matrix = train_matrix[:sep, :]
     tp_train_label = train_truth[:sep]
-    """
-    for i in range(len(C_Quad)):
-        print("Parameter Tuning {} % complete".format(i*14.28))
-        for j in range(len(R_Quad)):
-            L2Quad = SVC(kernel='poly', C=C_Quad[i],
-                         coef0=R_Quad[j], degree=2,
-                         class_weight='balanced')
-            # leave out one validation
 
-            accuracy = 0
-            for k in range(train_matrix.shape[0]):
-                one_out_matrix = np.delete(train_matrix, 1, axis = 0)
-                one_out_label = copy.deepcopy(train_truth)
-                del one_out_label[k]
-                val_matrix = train_matrix[k,:]
-                val_label = train_truth[k]
-                L2Quad.fit(one_out_matrix, one_out_label)
-                prediction = L2Quad.predict(val_matrix)
-                if val_label == prediction:
-                    accuracy += 1
-            accuracy_mat[i,j] = accuracy/(train_matrix.shape[0])
-            L2Quad.fit(tp_train_matrix, tp_train_label)
-            prediction = L2Quad.predict(validation_matrix)
-            accuracy_mat[i,j] = np.sum(validation_label == prediction)
-
-    C_idx, R_idx = np.where(accuracy_mat == np.max(accuracy_mat))
-    L2Quad = SVC(kernel='poly', C=C_Quad[C_idx[0]],
-                     coef0=R_Quad[R_idx[0]], degree=2,
-                     class_weight='balanced')
-                         """
     L2Quad = SVC(kernel='poly', C=C_Quad[3],
                  coef0=R_Quad[2], degree=2,
                  class_weight='balanced')

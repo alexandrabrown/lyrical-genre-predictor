@@ -4,7 +4,7 @@ from sklearn.preprocessing import Normalizer
 from sklearn.decomposition import TruncatedSVD
 
 
-def lsa_vectorize(train_lyrics, test_lyrics, output_matrix, n_components = 10):
+def lsa_vectorize(train_lyrics, test_lyrics, output_matrix, n_components=10):
     corpus = train_lyrics + test_lyrics
     vectorizer = TfidfVectorizer(min_df=1)
     dmatrix = vectorizer.fit_transform(corpus)

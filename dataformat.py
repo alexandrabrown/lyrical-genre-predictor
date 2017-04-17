@@ -1,3 +1,8 @@
+'''
+Script used to create the input file to the system
+and thus reduce computation time in queries
+'''
+
 from database import *
 import sys
 

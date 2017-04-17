@@ -2,10 +2,11 @@ import tf_idf
 import count_vec
 import binary_vec
 import lsa
-import database
 import sys
 from main import usage_string
 
+
+# Function to vectorize input lyrics based on command line arg
 def vectorization(train_lyrics, test_lyrics, vect_opts, output_matrix="dense"):
 
     if vect_opts == "tf_idf":
