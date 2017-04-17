@@ -30,6 +30,15 @@ def main():
     vect_opts = sys.argv[1]
     classifier_opts = sys.argv[2]
 
+    vectorization_methods = ['tf_idf', 'count', 'binary', 'lsa']
+    classification_schemes = ['naive_bayes', 'rocchio', 'knn', 'svm',
+                              'kmeans', 'agglomerative', 'spectral',
+                              'neural_network']
+
+    if vect_opts not in vectorization_methods or classifier_opts not in classification_schemes:
+        print("Error! USAGE: " + usage_string)
+        sys.exit(1)
+
     if vect_opts == "lsa" and classifier_opts == "naive_bayes":
         print("Error! LSA and Naive Bayes do not work together!")
         sys.exit(1)
