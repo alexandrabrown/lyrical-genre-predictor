@@ -20,6 +20,12 @@ tensorflow
 numpy
 scipy
 
+**setup**:
+```
+sh setup.sh
+```
+or download and unzip the three files listed at the top of the readme and run dataformat.py
+
 **usage**:
 ```
 python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | kmeans | agglomerative | spectral | neural_network] <optional_filename>
