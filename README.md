@@ -1,5 +1,6 @@
 # Lyrical Genre Predictor
 EECS 486 project to predict song genres based on their lyrics.
+Contributors: Alexandra Brown  (alexbro), Gabriel Hodge (gdhodge), Noriyuki Kojima (kojimano), Harry Zhang (zharry)
 
 The genres in consideration are country, rock, rap, blues, and pop.
 
