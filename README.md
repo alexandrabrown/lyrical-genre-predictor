@@ -1,4 +1,6 @@
 # Lyrical Genre Predictor
+https://github.com/alexandrabrown/lyrical-genre-predictor/
+
 EECS 486 project to predict song genres based on their lyrics.
 Contributors: Alexandra Brown  (alexbro), Gabriel Hodge (gdhodge), Noriyuki Kojima (kojimano), Harry Zhang (zharry)
 
@@ -31,6 +33,11 @@ or download and unzip the three files listed at the top of the readme and run da
 ```
 python3 main.py [tf_idf | count | binary | lsa] [naive_bayes | rocchio | knn | svm | kmeans | agglomerative | spectral | neural_network] <optional_filename>
 ```
+The optional filename argument allows user text input; this mode trains as normal but skips the testing step, instead predicting a genre for each line in the input file.
 
 **description**:
 The program first vectorizes each training document (bag-of-words model) using the specified vectorization scheme, and then it classifies the testing documents using the specified algorithm. After training on 5000 testing documents evenly split between the five genres, if the optional_filename is not specified, it tests on another 500 documents and outputs micro/macro precision/accuracy and F-score; if it is specified, the program reads in the specified file and classifies the lyrics line by line.
+
+Other python files besides main.py contain different classifiers and vectorizers corresponding to the arguments above. 
+
+Note that the Neural Network options are disabled by default so that other modes can be tested without having tensorflow installed--to test the NN classifier, uncomment the import line near the top of main.
